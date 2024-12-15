@@ -18,6 +18,7 @@ namespace WPF_Flashcards.ViewModels
 
         public ICommand ShowWindowCommand { get; set; }
 
+
         public MainViewModel() 
         {
             Decks = DeckManager.GetDecks();
@@ -32,14 +33,17 @@ namespace WPF_Flashcards.ViewModels
 
         private void ShowWindow(object obj)
         {
-            //var mainwindow = obj as Window;
+            var mainwindow = obj as Window;
 
             AddDeckView addDeckWindow = new AddDeckView();
-            //// Set the paremt and child
-            //addDeckWindow.Owner = mainwindow;
-            //// Make children start in the center of the parent window
-            //addDeckWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            
+            // Set the parent and child
+            addDeckWindow.Owner = mainwindow;
+            // Make children start in the center of the parent window
+            addDeckWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             addDeckWindow.Show();
+
         }
+       
     }
 }

@@ -33,5 +33,11 @@ namespace WPF_Flashcards.Commands
             // Invoke method
             _Execute(parameter);
         }
+
+        // Method to raise CanExecuteChanged event
+        public void RaiseCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

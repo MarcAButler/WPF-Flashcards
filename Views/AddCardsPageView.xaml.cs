@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
+using WPF_Flashcards.ViewModels;
 
 namespace WPF_Flashcards.Views
 {
@@ -20,9 +22,20 @@ namespace WPF_Flashcards.Views
     /// </summary>
     public partial class AddCardsPageView : Page
     {
-        public AddCardsPageView()
+        private string? DeckName;
+        private string? DeckDescription;
+
+
+
+        public AddCardsPageView(string deckName, string deckDescription)
         {
             InitializeComponent();
+
+            //DeckName = deckName;
+            //DeckDescription = deckDescription;
+
+            DataContext = new AddDeckViewModel(deckName, deckDescription);
+            //DataContext = this;
         }
     }
 }

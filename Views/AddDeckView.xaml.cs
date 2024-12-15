@@ -27,6 +27,8 @@ namespace WPF_Flashcards.Views
             AddDeckViewModel addDeckViewModel = new AddDeckViewModel();
             this.DataContext = addDeckViewModel;
 
+            // Navigate to the page when the application starts
+            AddDeckFrame.Navigate(new AddDeckPageView());
         }
     }
 }
