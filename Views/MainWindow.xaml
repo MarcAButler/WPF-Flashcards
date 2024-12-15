@@ -1,0 +1,51 @@
+﻿<Window x:Class="WPF_Flashcards.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF_Flashcards.Views"
+        mc:Ignorable="d"
+        x:Name="mainwindow"
+        Title="MainWindow"
+        Height="450"
+        Width="800"
+        WindowStartupLocation="CenterScreen"
+        >
+    <Grid>
+        <!-- BASE GRID -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="75*"/>
+        </Grid.ColumnDefinitions>
+        
+        <Border
+            Background="#222831"
+        />
+
+        <Grid Grid.Column="0" >
+            <Border
+                Background="#31363F"    
+            />
+            <ListView Name="DeckList" ItemsSource="{Binding Decks}" Background="#31363F">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Decks"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <Button Content="ADD DECK ➕" Command="{Binding ShowWindowCommand}" CommandParameter="{x:Reference Name=mainwindow}" Background="#76ABAE" Margin="0,0,0,10" Width="200" Height="50" VerticalAlignment="Bottom"/>
+
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <!-- MAIN BACKGROUND BORDER -->
+            <Border
+                Background="#222831"
+            />
+
+            <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
+        </Grid>
+
+    </Grid>
+</Window>

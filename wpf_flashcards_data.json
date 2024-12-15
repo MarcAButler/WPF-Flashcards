@@ -1,0 +1,40 @@
+﻿{
+  "decks": [
+    {
+      "id": "1",
+      "name": "Fantasy Creatures",
+      "description": "A deck featuring mythical beings from various legends.",
+      "cards": [
+        {
+          "id": "1",
+          "front": "Why do flamingos stand on one leg?",
+          "back": "Flamingos often stand on one leg to conserve body heat. By tucking one leg close to their body, they minimize heat loss through their limbs, which is especially helpful when they are standing in cool water. It’s also thought to reduce muscle fatigue since flamingos have a unique locking mechanism in their legs."
+        },
+        {
+          "id": "2",
+          "front": "Why do we call it a 'pair of pants' when it’s just one item?",
+          "back": "The term comes from the historical design of the garment. Originally, pants were made as two separate pieces, one for each leg, and were tied together at the waist. Over time, they evolved into a single connected garment, but the 'pair' terminology stuck."
+
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Space Explorers",
+      "description": "A deck focused on intergalactic exploration and technology.",
+      "cards": [
+        {
+          "id": "1",
+          "front": "Why do cats knead with their paws?",
+          "back": "Cats knead with their paws as a leftover behavior from kittenhood. Kittens knead their mother's belly to stimulate milk flow while nursing. In adulthood, kneading is thought to be a sign of comfort and contentment, as it often mimics the soothing action they performed when they were young. It may also be a way for cats to mark their territory, as their paw pads release scent when they knead."
+
+        },
+        {
+          "id": "2",
+          "front": "Why does your stomach growl when you’re hungry?",
+          "back": "Stomach growling, or 'borborygmi,' happens due to the movement of gas and fluids in your digestive system. When you're hungry, your brain signals your digestive muscles to contract to prepare for food, which causes these movements to become more noticeable. Without food to muffle the sound, the growling becomes louder!"
+        }
+      ]
+    }
+  ]
+}
