@@ -26,5 +26,15 @@ namespace WPF_Flashcards.Views
             InitializeComponent();
             DataContext = selectedDeck;
         }
+
+        private void NavigateToReviewDeckPage(object sender, RoutedEventArgs e)
+        {
+            Deck selectedDeck = (Deck)DataContext;
+            // Navigate to ReviewDeckPage and pass in deck Name and Description
+            var reviewDeckPage = new ReviewDeckPageView(selectedDeck);
+            NavigationService.Navigate(reviewDeckPage);
+
+            //NavigationService.Navigate(new ReviewDeckPageView());
+        }
     }
 }

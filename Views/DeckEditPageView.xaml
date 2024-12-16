@@ -8,17 +8,13 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="DeckEditPageView">
 
-    <Grid>
+    <Grid Margin="10">
         <Border
             Background="#222831"    
         />
         <TextBlock Text="{Binding Name}" FontSize="24" FontWeight="Bold" Foreground="#EEEEEE"/>
         <TextBlock Text="{Binding Description}" FontSize="18" Margin="0,30,0,0" Foreground="#EEEEEE"/>
-        <!--<StackPanel Margin="0,50,0,0">
-            <TextBlock>TEST 1</TextBlock>
-            <TextBlock>TEST 2</TextBlock>
-            <TextBlock>TEST 3</TextBlock>
-        </StackPanel>-->
+
 
         <ListView Name="DeckList" ItemsSource="{Binding Cards}" Background="#222831" Foreground="#EEEEEE" Margin="0,60,0,0">
             <ListView.View>
@@ -31,7 +27,8 @@
 
         <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Orientation="Horizontal">
             <Button Content="EDIT DECK ✏️" Background="#EEEEEE" Margin="0,0,0,10"  Width="200" Height="50" VerticalAlignment="Bottom"/>
-            <Button Content="REVIEW DECK ♻️" Background="#76ABAE" Margin="10,0,0,10" Width="200" Height="50" VerticalAlignment="Bottom"/>
+            <Button Content="REVIEW DECK ♻️" Click="NavigateToReviewDeckPage" Background="#76ABAE" Margin="10,0,0,10" Width="200" Height="50" VerticalAlignment="Bottom"/>
+
         </StackPanel>
     </Grid>
 </Page>

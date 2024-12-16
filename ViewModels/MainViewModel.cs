@@ -21,7 +21,7 @@ namespace WPF_Flashcards.ViewModels
         public ICommand ShowWindowCommand { get; set; }
         public ICommand NavigateToDeckPageCommand { get; set; }
 
-        // Handle switching decks
+        // Handle switching decks and cards
         private Deck? _selectedDeck;
         public Deck? SelectedDeck
         {
@@ -31,6 +31,18 @@ namespace WPF_Flashcards.ViewModels
                 _selectedDeck = value;
                 //OnPropertyChanged();
                 NavigateToDeckPageCommand.Execute(value);
+            }
+        }
+
+        private Card? _selectedCard;
+        public Card? SelectedCard
+        {
+            get => _selectedCard;
+            set
+            {
+                _selectedCard = value;
+                //OnPropertyChanged();
+                //NavigateToDeckPageCommand.Execute(value);
             }
         }
 
@@ -75,6 +87,16 @@ namespace WPF_Flashcards.ViewModels
                 NavigationService.Navigate(new DeckEditPageView(selectedDeck));
             }
         }
-       
+
+        private void NavigateToReviewDeckPage(Deck? selectedDeck)
+        {
+            if (selectedDeck != null)
+            {
+                NavigationService.Navigate(new ReviewDeckPageView(selectedDeck));
+            }
+        }
+
+        
+
     }
 }
