@@ -6,8 +6,8 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF_Flashcards.Services;
 using WPF_Flashcards.ViewModels;
 
 namespace WPF_Flashcards.Views
@@ -27,9 +27,10 @@ namespace WPF_Flashcards.Views
             // - Allows access to decks with bindings
             this.DataContext = mainViewModel;
 
+            NavigationService.MainFrame = MainFrame;
 
-            // Navigate to the page when the application starts
-            MainFrame.Navigate(new DeckEditPageView());
+            //// Navigate to the page when the application starts
+            //MainFrame.Navigate(new DeckEditPageView());
         }
     }
 }

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF_Flashcards.Models;
 
 namespace WPF_Flashcards.Views
 {
@@ -20,9 +21,10 @@ namespace WPF_Flashcards.Views
     /// </summary>
     public partial class DeckEditPageView : Page
     {
-        public DeckEditPageView()
+        public DeckEditPageView(Deck selectedDeck)
         {
             InitializeComponent();
+            DataContext = selectedDeck;
         }
     }
 }
