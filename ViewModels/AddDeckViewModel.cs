@@ -19,6 +19,9 @@ namespace WPF_Flashcards.ViewModels
         public ICommand AddCardCommand { get; set; }
 
 
+        // Used to determine if the deck has any cards so certain UI elements can be hidden
+        public bool HasCards => Cards.Any();
+
         public int Id { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
@@ -68,6 +71,8 @@ namespace WPF_Flashcards.ViewModels
             AddDeckCommand = new RelayCommand(AddDeck, CanAddDeck);
             
             AddCardCommand = new RelayCommand(AddCard, CanAddCard);
+
+            Cards.CollectionChanged += (s, e) => OnPropertyChanged(nameof(HasCards));
         }
 
 
@@ -78,6 +83,9 @@ namespace WPF_Flashcards.ViewModels
 
         private void AddDeck(object obj)
         {
+            // Add the last card on finish before adding the rest of the cards
+            AddCard(obj);
+
             DeckManager.AddDeck(new Deck() 
             { 
                 Id = 9999,
@@ -102,6 +110,8 @@ namespace WPF_Flashcards.ViewModels
             System.Diagnostics.Debug.WriteLine("CardFront: " + CardFront);
 
             Cards.Add(new Card { Front = CardFront, Back = CardBack });
+
+            OnPropertyChanged(nameof(HasCards));
         }
 
         // Update the View dynamically when the properties change 
