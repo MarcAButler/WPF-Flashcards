@@ -22,27 +22,24 @@ namespace WPF_Flashcards.Views
     /// </summary>
     public partial class DeckEditPageView : Page
     {
-        private MainViewModel ViewModel { get; set; }
-
-        public DeckEditPageView(Deck selectedDeck)
+        //public DeckEditPageView(Deck selectedDeck)
+        public DeckEditPageView(MainViewModel viewModel)
         {
             InitializeComponent();
-
-            ViewModel = new MainViewModel();
-
             //DataContext = selectedDeck;
-
-            DataContext = ViewModel;
+            DataContext = viewModel;
         }
 
         private void NavigateToReviewDeckPage(object sender, RoutedEventArgs e)
         {
-            //Deck selectedDeck = (Deck)DataContext;
-            // Navigate to ReviewDeckPage and pass in deck Name and Description
-            var reviewDeckPage = new ReviewDeckPageView(ViewModel.SelectedDeck, ViewModel.SelectedCard);
-            NavigationService.Navigate(reviewDeckPage);
+            var viewModel = (MainViewModel)DataContext;
+            Deck selectedDeck = viewModel.SelectedDeck;
+            Card selectedCard = viewModel.SelectedCard;
 
-            //NavigationService.Navigate(new ReviewDeckPageView());
+
+            // Navigate to ReviewDeckPage and pass in deck Name and Description
+            var reviewDeckPage = new ReviewDeckPageView(selectedDeck, selectedCard);
+            NavigationService.Navigate(reviewDeckPage);
         }
 
 

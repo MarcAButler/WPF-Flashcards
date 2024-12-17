@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection.Metadata;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,7 +14,7 @@ using WPF_Flashcards.Views;
 
 namespace WPF_Flashcards.ViewModels
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel
     {
         public ObservableCollection<Deck> Decks { get; set; }
 
@@ -32,27 +30,19 @@ namespace WPF_Flashcards.ViewModels
             {
                 _selectedDeck = value;
                 //OnPropertyChanged();
-                NavigateToDeckPageCommand.Execute(value);
+
 
                 // Whenever a deck is selected create a queue for SelectedDeckCardQueue
                 CreateCardQueue(_selectedDeck);
 
                 // For the first time that a deck queue is created also update the SelectedCard
                 UpdateCurrentSelectedCard();
+
+                NavigateToDeckPageCommand.Execute(value);
             }
         }
 
-
-
         private Card? _selectedCard;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         public Card? SelectedCard
         {
             get => _selectedCard;
@@ -65,9 +55,6 @@ namespace WPF_Flashcards.ViewModels
         }
 
         public Queue<Card> SelectedDeckCardQueue { get; set; }
-
-
-
 
 
         public MainViewModel() 
@@ -106,28 +93,28 @@ namespace WPF_Flashcards.ViewModels
 
         private void NavigateToDeckPage(Deck? selectedDeck)
         {
-            // Update Selected Card
-
             if (selectedDeck != null)
             {
-                NavigationService.Navigate(new DeckEditPageView(selectedDeck));
+                //NavigationService.Navigate(new DeckEditPageView(selectedDeck));
+
+                //SelectedDeck = selectedDeck;
+                NavigationService.Navigate(new DeckEditPageView(this));
             }
         }
 
-        private void NavigateToReviewDeckPage(Deck? selectedDeck)
-        {
-            if (selectedDeck != null)
-            {
-                NavigationService.Navigate(new ReviewDeckPageView(selectedDeck));
-            }
-        }
-
+        //private void NavigateToReviewDeckPage(Deck? selectedDeck, Card? selectedCard)
+        //{
+        //    if (selectedDeck != null)
+        //    {
+        //        NavigationService.Navigate(new ReviewDeckPageView(selectedDeck, selectedCard));
+        //    }
+        //}
 
         private void CreateCardQueue(Deck? selectedDeck)
         {
             List<Card> selectedDeckCards = selectedDeck.Cards;
             selectedDeckCards = selectedDeck.Cards;
-            
+
 
             // Add all the cards to the queue
             foreach (Card card in selectedDeckCards)
@@ -142,6 +129,8 @@ namespace WPF_Flashcards.ViewModels
         {
             SelectedCard = SelectedDeckCardQueue.Dequeue();
         }
+
+
 
     }
 }
