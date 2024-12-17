@@ -82,19 +82,21 @@ namespace WPF_Flashcards.ViewModels
 
         private void NavigateToDeckPage(Deck? selectedDeck)
         {
+            // Update Selected Card
+
             if (selectedDeck != null)
             {
                 NavigationService.Navigate(new DeckEditPageView(selectedDeck));
             }
         }
 
-        private void NavigateToReviewDeckPage(Deck? selectedDeck)
-        {
-            if (selectedDeck != null)
-            {
-                NavigationService.Navigate(new ReviewDeckPageView(selectedDeck));
-            }
-        }
+        //private void NavigateToReviewDeckPage(Deck? selectedDeck)
+        //{
+        //    if (selectedDeck != null)
+        //    {
+        //        NavigationService.Navigate(new ReviewDeckPageView(selectedDeck));
+        //    }
+        //}
 
         
 
