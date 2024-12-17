@@ -30,6 +30,14 @@ namespace WPF_Flashcards.ViewModels
             {
                 _selectedDeck = value;
                 //OnPropertyChanged();
+
+
+                // Whenever a deck is selected create a queue for SelectedDeckCardQueue
+                CreateCardQueue(_selectedDeck);
+
+                // For the first time that a deck queue is created also update the SelectedCard
+                UpdateCurrentSelectedCard();
+
                 NavigateToDeckPageCommand.Execute(value);
             }
         }
@@ -46,11 +54,14 @@ namespace WPF_Flashcards.ViewModels
             }
         }
 
+        public Queue<Card> SelectedDeckCardQueue { get; set; }
 
 
         public MainViewModel() 
         {
             Decks = DeckManager.GetDecks();
+
+            SelectedDeckCardQueue = new Queue<Card>();
 
             ShowWindowCommand = new RelayCommand(ShowWindow, CanShowWindow);
             //NavigateToDeckPageCommand = new RelayCommand<Deck>(NavigateToDeckPage);
@@ -84,19 +95,42 @@ namespace WPF_Flashcards.ViewModels
         {
             if (selectedDeck != null)
             {
-                NavigationService.Navigate(new DeckEditPageView(selectedDeck));
+                //NavigationService.Navigate(new DeckEditPageView(selectedDeck));
+
+                //SelectedDeck = selectedDeck;
+                NavigationService.Navigate(new DeckEditPageView(this));
             }
         }
 
-        private void NavigateToReviewDeckPage(Deck? selectedDeck)
+        //private void NavigateToReviewDeckPage(Deck? selectedDeck, Card? selectedCard)
+        //{
+        //    if (selectedDeck != null)
+        //    {
+        //        NavigationService.Navigate(new ReviewDeckPageView(selectedDeck, selectedCard));
+        //    }
+        //}
+
+        private void CreateCardQueue(Deck? selectedDeck)
         {
-            if (selectedDeck != null)
+            List<Card> selectedDeckCards = selectedDeck.Cards;
+            selectedDeckCards = selectedDeck.Cards;
+
+
+            // Add all the cards to the queue
+            foreach (Card card in selectedDeckCards)
             {
-                NavigationService.Navigate(new ReviewDeckPageView(selectedDeck));
+                SelectedDeckCardQueue.Enqueue(card);
             }
+
         }
 
-        
+        // Updates the current selectedcard using the SelectedDeckCardQueue
+        public void UpdateCurrentSelectedCard()
+        {
+            SelectedCard = SelectedDeckCardQueue.Dequeue();
+        }
+
+
 
     }
 }

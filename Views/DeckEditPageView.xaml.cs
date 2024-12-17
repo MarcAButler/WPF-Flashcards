@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WPF_Flashcards.Models;
+using WPF_Flashcards.ViewModels;
 
 namespace WPF_Flashcards.Views
 {
@@ -21,20 +22,24 @@ namespace WPF_Flashcards.Views
     /// </summary>
     public partial class DeckEditPageView : Page
     {
-        public DeckEditPageView(Deck selectedDeck)
+        //public DeckEditPageView(Deck selectedDeck)
+        public DeckEditPageView(MainViewModel viewModel)
         {
             InitializeComponent();
-            DataContext = selectedDeck;
+            //DataContext = selectedDeck;
+            DataContext = viewModel;
         }
 
         private void NavigateToReviewDeckPage(object sender, RoutedEventArgs e)
         {
-            Deck selectedDeck = (Deck)DataContext;
-            // Navigate to ReviewDeckPage and pass in deck Name and Description
-            var reviewDeckPage = new ReviewDeckPageView(selectedDeck);
-            NavigationService.Navigate(reviewDeckPage);
+            var viewModel = (MainViewModel)DataContext;
+            Deck selectedDeck = viewModel.SelectedDeck;
+            Card selectedCard = viewModel.SelectedCard;
 
-            //NavigationService.Navigate(new ReviewDeckPageView());
+
+            // Navigate to ReviewDeckPage and pass in deck Name and Description
+            var reviewDeckPage = new ReviewDeckPageView(selectedDeck, selectedCard);
+            NavigationService.Navigate(reviewDeckPage);
         }
     }
 }

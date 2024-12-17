@@ -12,11 +12,11 @@
         <Border
             Background="#222831"    
         />
-        <TextBlock Text="{Binding Name}" FontSize="24" FontWeight="Bold" Foreground="#EEEEEE"/>
-        <TextBlock Text="{Binding Description}" FontSize="18" Margin="0,30,0,0" Foreground="#EEEEEE"/>
+        <TextBlock Text="{Binding SelectedDeck.Name}" FontSize="24" FontWeight="Bold" Foreground="#EEEEEE"/>
+        <TextBlock Text="{Binding SelectedDeck.Description}" FontSize="18" Margin="0,30,0,0" Foreground="#EEEEEE"/>
 
 
-        <ListView Name="DeckList" ItemsSource="{Binding Cards}" Background="#222831" Foreground="#EEEEEE" Margin="0,60,0,0">
+        <ListView Name="DeckList" ItemsSource="{Binding SelectedDeck.Cards}" Background="#222831" Foreground="#EEEEEE" Margin="0,60,0,0">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Front}" Header="Front" Width="Auto"/>

@@ -22,12 +22,16 @@ namespace WPF_Flashcards.Views
     /// </summary>
     public partial class ReviewDeckPageView : Page
     {
-        public ReviewDeckPageView(Deck selectedDeck)
+        public ReviewDeckPageView(Deck selectedDeck, Card? selectedCard)
         {
             InitializeComponent();
 
             //DataContext = new MainViewModel();
-            DataContext = selectedDeck;
+            DataContext = new
+            {
+                Deck = selectedDeck,
+                Card = selectedCard
+            };
 
         }
     }
