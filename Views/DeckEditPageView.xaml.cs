@@ -33,12 +33,13 @@ namespace WPF_Flashcards.Views
         private void NavigateToReviewDeckPage(object sender, RoutedEventArgs e)
         {
             var viewModel = (MainViewModel)DataContext;
-            Deck selectedDeck = viewModel.SelectedDeck;
-            Card selectedCard = viewModel.SelectedCard;
-
+            //Deck selectedDeck = viewModel.SelectedDeck;
+            //Card selectedCard = viewModel.SelectedCard;
+            //ReviewState currentReviewState = viewModel.CurrentReviewState;
 
             // Navigate to ReviewDeckPage and pass in deck Name and Description
-            var reviewDeckPage = new ReviewDeckPageView(selectedDeck, selectedCard);
+            //var reviewDeckPage = new ReviewDeckPageView(selectedDeck, selectedCard, currentReviewState);
+            var reviewDeckPage = new ReviewDeckPageView(viewModel);
             NavigationService.Navigate(reviewDeckPage);
         }
 

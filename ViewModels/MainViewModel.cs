@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection.Metadata;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,30 +16,25 @@ using WPF_Flashcards.Views;
 
 namespace WPF_Flashcards.ViewModels
 {
-    public class MainViewModel
+    public class MainViewModel : INotifyPropertyChanged
     {
         public ObservableCollection<Deck> Decks { get; set; }
 
         public ICommand ShowWindowCommand { get; set; }
         public ICommand NavigateToDeckPageCommand { get; set; }
+        public ICommand FlipCardCommand { get; set; }
+        public ICommand NextCardCommand { get; set; }
 
-        // Handle switching decks and cards
         private Deck? _selectedDeck;
         public Deck? SelectedDeck
         {
             get => _selectedDeck;
-            set 
+            set
             {
                 _selectedDeck = value;
-                //OnPropertyChanged();
-
-
-                // Whenever a deck is selected create a queue for SelectedDeckCardQueue
+                OnPropertyChanged();
                 CreateCardQueue(_selectedDeck);
-
-                // For the first time that a deck queue is created also update the SelectedCard
                 UpdateCurrentSelectedCard();
-
                 NavigateToDeckPageCommand.Execute(value);
             }
         }
@@ -49,26 +46,35 @@ namespace WPF_Flashcards.ViewModels
             set
             {
                 _selectedCard = value;
-                //OnPropertyChanged();
-                //NavigateToDeckPageCommand.Execute(value);
+                OnPropertyChanged();
             }
         }
 
         public Queue<Card> SelectedDeckCardQueue { get; set; }
 
+        private ReviewState _currentReviewState;
+        public ReviewState CurrentReviewState
+        {
+            get => _currentReviewState;
+            set
+            {
+                _currentReviewState = value;
+                OnPropertyChanged();
+            }
+        }
 
-        public MainViewModel() 
+        public MainViewModel()
         {
             Decks = DeckManager.GetDecks();
-
             SelectedDeckCardQueue = new Queue<Card>();
-
             ShowWindowCommand = new RelayCommand(ShowWindow, CanShowWindow);
-            //NavigateToDeckPageCommand = new RelayCommand<Deck>(NavigateToDeckPage);
             NavigateToDeckPageCommand = new RelayCommand(
                 executeMethod: parameter => NavigateToDeckPage(parameter as Deck),
                 canExecuteMethod: parameter => parameter is Deck
             );
+            FlipCardCommand = new RelayCommand(FlipCard, CanFlipCard);
+            NextCardCommand = new RelayCommand(NextCard, CanNextCard);
+            CurrentReviewState = ReviewState.Flip;
         }
 
         private bool CanShowWindow(object obj)
@@ -76,61 +82,79 @@ namespace WPF_Flashcards.ViewModels
             return true;
         }
 
-        // Open the Add Deck Window
         private void ShowWindow(object obj)
         {
             var mainwindow = obj as Window;
-
             AddDeckView addDeckWindow = new AddDeckView();
-            
-            // Set the parent and child
             addDeckWindow.Owner = mainwindow;
-            // Make children start in the center of the parent window
             addDeckWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             addDeckWindow.Show();
-
         }
 
         private void NavigateToDeckPage(Deck? selectedDeck)
         {
             if (selectedDeck != null)
             {
-                //NavigationService.Navigate(new DeckEditPageView(selectedDeck));
-
-                //SelectedDeck = selectedDeck;
                 NavigationService.Navigate(new DeckEditPageView(this));
+                CurrentReviewState = ReviewState.Flip;
             }
         }
-
-        //private void NavigateToReviewDeckPage(Deck? selectedDeck, Card? selectedCard)
-        //{
-        //    if (selectedDeck != null)
-        //    {
-        //        NavigationService.Navigate(new ReviewDeckPageView(selectedDeck, selectedCard));
-        //    }
-        //}
 
         private void CreateCardQueue(Deck? selectedDeck)
         {
-            List<Card> selectedDeckCards = selectedDeck.Cards;
-            selectedDeckCards = selectedDeck.Cards;
-
-
-            // Add all the cards to the queue
-            foreach (Card card in selectedDeckCards)
+            if (selectedDeck?.Cards != null)
             {
-                SelectedDeckCardQueue.Enqueue(card);
+                foreach (Card card in selectedDeck.Cards)
+                {
+                    SelectedDeckCardQueue.Enqueue(card);
+                }
             }
-
         }
 
-        // Updates the current selectedcard using the SelectedDeckCardQueue
         public void UpdateCurrentSelectedCard()
         {
-            SelectedCard = SelectedDeckCardQueue.Dequeue();
+            if (SelectedDeckCardQueue.Count > 0)
+            {
+                SelectedCard = SelectedDeckCardQueue.Dequeue();
+                CurrentReviewState = ReviewState.Flip;
+            }
+            else
+            {
+                CurrentReviewState = ReviewState.Complete;
+            }
         }
 
+        private void FlipCard(object parameter)
+        {
+            if (CurrentReviewState == ReviewState.Flip)
+            {
+                CurrentReviewState = ReviewState.Answer;
+            }
+        }
 
+        private bool CanFlipCard(object parameter)
+        {
+            return CurrentReviewState == ReviewState.Flip;
+        }
 
+        private void NextCard(object parameter)
+        {
+            if (CurrentReviewState == ReviewState.Answer)
+            {
+                UpdateCurrentSelectedCard();
+            }
+        }
+
+        private bool CanNextCard(object parameter)
+        {
+            return CurrentReviewState == ReviewState.Answer;
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
