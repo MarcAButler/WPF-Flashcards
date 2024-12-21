@@ -12,10 +12,10 @@ namespace WPF_Flashcards.Converters
             if (value == null || parameter == null)
                 return Visibility.Collapsed;
 
-            string enumValue = value.ToString();
+            string checkValue = value.ToString();
             string targetValue = parameter.ToString();
 
-            if (enumValue.Equals(targetValue, StringComparison.InvariantCultureIgnoreCase))
+            if (checkValue.Equals(targetValue, StringComparison.InvariantCultureIgnoreCase))
                 return Visibility.Visible;
 
             return Visibility.Collapsed;

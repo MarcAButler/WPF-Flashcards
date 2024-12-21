@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using WPF_Flashcards.Commands;
@@ -22,6 +20,7 @@ namespace WPF_Flashcards.ViewModels
 
         public ICommand ShowWindowCommand { get; set; }
         public ICommand NavigateToDeckPageCommand { get; set; }
+        //public ICommand UpdateCardCommand { get; set; }
         public ICommand FlipCardCommand { get; set; }
         public ICommand NextCardCommand { get; set; }
 
@@ -35,7 +34,10 @@ namespace WPF_Flashcards.ViewModels
                 OnPropertyChanged();
                 CreateCardQueue(_selectedDeck);
                 UpdateCurrentSelectedCard();
-                NavigateToDeckPageCommand.Execute(value);
+                if (NavigateToDeckPageCommand.CanExecute(value))
+                {
+                    NavigateToDeckPageCommand.Execute(value);
+                }
             }
         }
 
@@ -60,6 +62,7 @@ namespace WPF_Flashcards.ViewModels
             {
                 _currentReviewState = value;
                 OnPropertyChanged();
+                CommandManager.InvalidateRequerySuggested(); // Notify commands to re-evaluate CanExecute
             }
         }
 
@@ -72,8 +75,10 @@ namespace WPF_Flashcards.ViewModels
                 executeMethod: parameter => NavigateToDeckPage(parameter as Deck),
                 canExecuteMethod: parameter => parameter is Deck
             );
+
             FlipCardCommand = new RelayCommand(FlipCard, CanFlipCard);
             NextCardCommand = new RelayCommand(NextCard, CanNextCard);
+
             CurrentReviewState = ReviewState.Flip;
         }
 
@@ -85,9 +90,11 @@ namespace WPF_Flashcards.ViewModels
         private void ShowWindow(object obj)
         {
             var mainwindow = obj as Window;
-            AddDeckView addDeckWindow = new AddDeckView();
-            addDeckWindow.Owner = mainwindow;
-            addDeckWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            AddDeckView addDeckWindow = new AddDeckView
+            {
+                Owner = mainwindow,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+            };
             addDeckWindow.Show();
         }
 
@@ -102,6 +109,7 @@ namespace WPF_Flashcards.ViewModels
 
         private void CreateCardQueue(Deck? selectedDeck)
         {
+            SelectedDeckCardQueue.Clear();
             if (selectedDeck?.Cards != null)
             {
                 foreach (Card card in selectedDeck.Cards)
@@ -139,6 +147,7 @@ namespace WPF_Flashcards.ViewModels
 
         private void NextCard(object parameter)
         {
+            System.Diagnostics.Debug.WriteLine("NextCard method called.");
             if (CurrentReviewState == ReviewState.Answer)
             {
                 UpdateCurrentSelectedCard();
@@ -147,7 +156,8 @@ namespace WPF_Flashcards.ViewModels
 
         private bool CanNextCard(object parameter)
         {
-            return CurrentReviewState == ReviewState.Answer;
+            // For now just always allow going to next card if available
+            return true;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
