@@ -12,13 +12,24 @@ namespace WPF_Flashcards.Converters
             if (value == null || parameter == null)
                 return Visibility.Collapsed;
 
-            string checkValue = value.ToString();
-            string targetValue = parameter.ToString();
+            string parameterString = parameter.ToString();
+            bool negate = false;
 
-            if (checkValue.Equals(targetValue, StringComparison.InvariantCultureIgnoreCase))
-                return Visibility.Visible;
+            if (parameterString.StartsWith("!"))
+            {
+                negate = true;
+                parameterString = parameterString.Substring(1);
+            }
 
-            return Visibility.Collapsed;
+            if (Enum.IsDefined(value.GetType(), value) == false)
+                return Visibility.Collapsed;
+
+            object parameterValue = Enum.Parse(value.GetType(), parameterString);
+
+            if (negate)
+                return value.Equals(parameterValue) ? Visibility.Collapsed : Visibility.Visible;
+            else
+                return value.Equals(parameterValue) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

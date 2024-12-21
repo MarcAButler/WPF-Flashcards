@@ -15,12 +15,16 @@
 
     <Grid>
         <Border Background="#222831"/>
-        <StackPanel Margin="10">
+        <StackPanel Margin="10" Visibility="{Binding CurrentReviewState, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter=!Complete}">
             <TextBlock Text="{Binding SelectedDeck.Name}" FontSize="16" FontWeight="Bold" Foreground="#EEEEEE"/>
             <TextBlock Text="{Binding SelectedDeck.Description}" FontSize="14" Margin="0,5,0,0" Foreground="#EEEEEE"/>
             <TextBlock Text="{Binding SelectedCard.Front}" FontSize="18" FontWeight="Bold" Margin="0,30,0,0" Foreground="#EEEEEE"/>
             <Separator Height="100" Visibility="{Binding CurrentReviewState, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter=Answer}"/>
             <TextBlock Text="{Binding SelectedCard.Back}" FontSize="18" FontStyle="Italic" Foreground="Green" Visibility="{Binding CurrentReviewState, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter=Answer}"/>
+        </StackPanel>
+        <StackPanel Margin="10" >
+            <TextBlock Text="Review Finished!" FontSize="18" FontWeight="Bold" Foreground="#76ABAE" Visibility="{Binding CurrentReviewState, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter=Complete}" Margin="0,30,0,0"/>
+            <TextBlock Text="Select another deck to start another review" FontSize="16" FontStyle="Italic"  Foreground="#EEEEEE" Visibility="{Binding CurrentReviewState, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter=Complete}" Margin="0,30,0,0"/>
         </StackPanel>
         <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Orientation="Horizontal">
             <Button Content="FLIP 🔃" Background="#76ABAE" Margin="0,0,0,10" Width="200" Height="50" VerticalAlignment="Bottom" Command="{Binding FlipCardCommand}" Visibility="{Binding CurrentReviewState, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter=Flip}"/>
