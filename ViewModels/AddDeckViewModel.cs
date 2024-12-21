@@ -106,10 +106,11 @@ namespace WPF_Flashcards.ViewModels
 
         private void AddCard(object obj)
         {
-            System.Diagnostics.Debug.WriteLine("HELLO WORLD");
-            System.Diagnostics.Debug.WriteLine("CardFront: " + CardFront);
-
             Cards.Add(new Card { Front = CardFront, Back = CardBack });
+
+            // Clear the input fields
+            CardFront = string.Empty;
+            CardBack = string.Empty;
 
             OnPropertyChanged(nameof(HasCards));
         }

@@ -24,7 +24,6 @@
             <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="200" MaxLength="100"  />
             <Label Content="Description" Foreground="White" Height="28" HorizontalAlignment="Left" Name="Description" VerticalAlignment="Top" />
             <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Width="200" MaxLength="100"  />
-            <!-- TODO: OPEN NEW PAGE TO ADD CARDS -->
             <Button Content="ADD CARDS ➡️" Click="NavigateToAddCardsPage" Background="#EEEEEE" Margin="0,100,0,0" Width="200" Height="50"/>
         </StackPanel>
     </Grid>
