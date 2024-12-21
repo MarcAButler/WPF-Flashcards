@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WPF_Flashcards.Views"
         mc:Ignorable="d"
         x:Name="mainwindow"
-        Title="MainWindow"
+        Title="WPF Cards"
         Height="450"
         Width="800"
         WindowStartupLocation="CenterScreen"
@@ -43,7 +43,7 @@
             <Border
                 Background="#222831"
             />
-
+            <Image Source="/Assets/WPF-Cards-ICON.png" Width="256" Height="256" Margin="10"/>
             <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
         </Grid>
 
