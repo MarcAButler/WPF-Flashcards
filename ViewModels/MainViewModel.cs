@@ -182,11 +182,20 @@ namespace WPF_Flashcards.ViewModels
 
         private void SaveDeck(object obj)
         {
-            // Logic to save the deck, e.g., update the database or file
-            DeckManager.UpdateDeck(SelectedDeck);
+            if (SelectedDeck != null)
+            {
+                var cardsToRemove = SelectedDeck.Cards.Where(card => card.IsDeleted).ToList();
+                foreach (var card in cardsToRemove)
+                {
+                    SelectedDeck.Cards.Remove(card);
+                }
 
-            // Navigate to the confirmation page
-            NavigationService.Navigate(new DeckConfirmationPageView(this));
+                // Logic to save the deck, e.g., update the database or file
+                DeckManager.UpdateDeck(SelectedDeck);
+
+                // Navigate to the confirmation page
+                NavigationService.Navigate(new DeckConfirmationPageView(this));
+            }
         }
 
         private bool CanDeleteCard(object obj)
@@ -196,9 +205,9 @@ namespace WPF_Flashcards.ViewModels
 
         private void DeleteCard(object obj)
         {
-            if (obj is Card card && SelectedDeck != null)
+            if (obj is Card card)
             {
-                SelectedDeck.Cards.Remove(card);
+                card.IsDeleted = true;
                 OnPropertyChanged(nameof(SelectedDeck));
             }
         }

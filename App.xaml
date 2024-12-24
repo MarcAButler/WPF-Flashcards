@@ -6,5 +6,6 @@
              StartupUri="./Views/MainWindow.xaml">
     <Application.Resources>
         <converters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter"/>
+        <converters:NotDeletedCardsConverter x:Key="NotDeletedCardsConverter"/>
     </Application.Resources>
 </Application>

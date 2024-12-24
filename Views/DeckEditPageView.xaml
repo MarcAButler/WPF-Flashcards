@@ -15,7 +15,7 @@
         <TextBlock Text="{Binding SelectedDeck.Name}" FontSize="24" FontWeight="Bold" Foreground="#EEEEEE"/>
         <TextBlock Text="{Binding SelectedDeck.Description}" FontSize="18" Margin="0,30,0,0" Foreground="#EEEEEE"/>
 
-        <ItemsControl ItemsSource="{Binding SelectedDeck.Cards}" Background="#222831" Foreground="#EEEEEE" Margin="0,60,0,0">
+        <ItemsControl ItemsSource="{Binding SelectedDeck.Cards, Converter={StaticResource NotDeletedCardsConverter}}" Background="#222831" Foreground="#EEEEEE" Margin="0,60,0,0">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid>
