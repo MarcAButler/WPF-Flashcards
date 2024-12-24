@@ -102,7 +102,7 @@ namespace WPF_Flashcards.ViewModels
         {
             if (selectedDeck != null)
             {
-                NavigationService.Navigate(new DeckEditPageView(this));
+                NavigationService.Navigate(new DeckConfirmationPageView(this));
                 CurrentReviewState = ReviewState.Flip;
             }
         }

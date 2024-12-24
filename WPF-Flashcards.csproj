@@ -22,4 +22,10 @@
     <Resource Include="Assets\WPF-Cards-ICON.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Views\DeckEditPageView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>

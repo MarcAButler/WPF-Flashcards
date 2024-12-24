@@ -20,6 +20,7 @@ namespace WPF_Flashcards.Views
     /// <summary>
     /// Interaction logic for DeckEditPageView.xaml
     /// </summary>
+    /// 
     public partial class DeckEditPageView : Page
     {
         //public DeckEditPageView(Deck selectedDeck)
@@ -29,22 +30,5 @@ namespace WPF_Flashcards.Views
             //DataContext = selectedDeck;
             DataContext = viewModel;
         }
-
-        private void NavigateToReviewDeckPage(object sender, RoutedEventArgs e)
-        {
-            var viewModel = (MainViewModel)DataContext;
-            //Deck selectedDeck = viewModel.SelectedDeck;
-            //Card selectedCard = viewModel.SelectedCard;
-            //ReviewState currentReviewState = viewModel.CurrentReviewState;
-
-            // Navigate to ReviewDeckPage and pass in deck Name and Description
-            //var reviewDeckPage = new ReviewDeckPageView(selectedDeck, selectedCard, currentReviewState);
-            var reviewDeckPage = new ReviewDeckPageView(viewModel);
-            NavigationService.Navigate(reviewDeckPage);
-        }
-
-
-        
-
     }
 }
