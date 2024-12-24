@@ -18,7 +18,10 @@ namespace WPF_Flashcards.ViewModels
     {
         public ObservableCollection<Deck> Decks { get; set; }
 
-        public ICommand ShowWindowCommand { get; set; }
+        public ICommand ShowAddDeckWindowCommand { get; set; }
+
+        public ICommand ShowDeleteDeckWindowCommand { get; set; }
+
         public ICommand NavigateToDeckPageCommand { get; set; }
         //public ICommand UpdateCardCommand { get; set; }
         public ICommand FlipCardCommand { get; set; }
@@ -74,7 +77,9 @@ namespace WPF_Flashcards.ViewModels
         {
             Decks = DeckManager.GetDecks();
             SelectedDeckCardQueue = new Queue<Card>();
-            ShowWindowCommand = new RelayCommand(ShowWindow, CanShowWindow);
+            ShowAddDeckWindowCommand = new RelayCommand(parameter => ShowWindow("AddDeck"), CanShowWindow);
+            ShowDeleteDeckWindowCommand = new RelayCommand(parameter => ShowWindow("DeleteDeck"), CanShowWindow);
+
             NavigateToDeckPageCommand = new RelayCommand(
                 executeMethod: parameter => NavigateToDeckPage(parameter as Deck),
                 canExecuteMethod: parameter => parameter is Deck
@@ -94,15 +99,33 @@ namespace WPF_Flashcards.ViewModels
             return true;
         }
 
-        private void ShowWindow(object obj)
+        private void ShowWindow(object parameter)
         {
-            var mainwindow = obj as Window;
-            AddDeckView addDeckWindow = new AddDeckView
+            var mainwindow = parameter as Window;
+            Window windowToOpen = null;
+
+            if (parameter is string windowType)
             {
-                Owner = mainwindow,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner
-            };
-            addDeckWindow.Show();
+                switch (windowType)
+                {
+                    case "AddDeck":
+                        windowToOpen = new AddDeckView
+                        {
+                            Owner = mainwindow,
+                            WindowStartupLocation = WindowStartupLocation.CenterOwner
+                        };
+                        break;
+                    case "DeleteDeck":
+                        windowToOpen = new DeleteDeckConfirmationView
+                        {
+                            Owner = mainwindow,
+                            WindowStartupLocation = WindowStartupLocation.CenterOwner
+                        };
+                        break;
+                }
+            }
+
+            windowToOpen?.Show();
         }
 
         private void NavigateToDeckPage(Deck? selectedDeck)

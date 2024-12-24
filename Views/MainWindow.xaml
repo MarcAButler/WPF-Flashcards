@@ -34,7 +34,7 @@
                 </ListView.View>
             </ListView>
 
-            <Button Content="ADD DECK ➕" Command="{Binding ShowWindowCommand}" CommandParameter="{x:Reference Name=mainwindow}" Background="#76ABAE" Margin="0,0,0,10" Width="200" Height="50" VerticalAlignment="Bottom"/>
+            <Button Content="ADD DECK ➕" Command="{Binding ShowAddDeckWindowCommand}" CommandParameter="{x:Reference Name=mainwindow}" Background="#76ABAE" Margin="0,0,0,10" Width="200" Height="50" VerticalAlignment="Bottom"/>
 
         </Grid>
 

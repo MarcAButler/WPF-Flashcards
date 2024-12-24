@@ -36,7 +36,7 @@
         </ItemsControl>
 
         <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Orientation="Horizontal">
-            <Button Content="DELETE DECK 🗑️" Background="#FF204E" Margin="0,0,0,10"  Width="200" Height="50" VerticalAlignment="Bottom"/>
+            <Button Content="DELETE DECK 🗑️" Command="{Binding ShowDeleteDeckWindowCommand}" Background="#FF204E" Margin="0,0,0,10"  Width="200" Height="50" VerticalAlignment="Bottom"/>
             <Button Content="SAVE DECK 💾" Command="{Binding SaveDeckCommand}" Background="#76ABAE" Margin="10,0,0,10" Width="200" Height="50" VerticalAlignment="Bottom"/>
 
         </StackPanel>
