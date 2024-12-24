@@ -24,6 +24,10 @@ namespace WPF_Flashcards.ViewModels
         public ICommand FlipCardCommand { get; set; }
         public ICommand NextCardCommand { get; set; }
 
+        public ICommand SaveDeckCommand { get; set; }
+
+        public ICommand DeleteCardCommand { get; set; }
+
         private Deck? _selectedDeck;
         public Deck? SelectedDeck
         {
@@ -80,6 +84,9 @@ namespace WPF_Flashcards.ViewModels
             NextCardCommand = new RelayCommand(NextCard, CanNextCard);
 
             CurrentReviewState = ReviewState.Flip;
+
+            SaveDeckCommand = new RelayCommand(SaveDeck, CanSaveDeck);
+            DeleteCardCommand = new RelayCommand(DeleteCard, CanDeleteCard);
         }
 
         private bool CanShowWindow(object obj)
@@ -165,6 +172,35 @@ namespace WPF_Flashcards.ViewModels
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+
+        private bool CanSaveDeck(object obj)
+        {
+            return SelectedDeck != null && SelectedDeck.Cards.Any();
+        }
+
+        private void SaveDeck(object obj)
+        {
+            // Logic to save the deck, e.g., update the database or file
+            DeckManager.UpdateDeck(SelectedDeck);
+
+            // Navigate to the confirmation page
+            NavigationService.Navigate(new DeckConfirmationPageView(this));
+        }
+
+        private bool CanDeleteCard(object obj)
+        {
+            return obj is Card;
+        }
+
+        private void DeleteCard(object obj)
+        {
+            if (obj is Card card && SelectedDeck != null)
+            {
+                SelectedDeck.Cards.Remove(card);
+                OnPropertyChanged(nameof(SelectedDeck));
+            }
         }
     }
 }

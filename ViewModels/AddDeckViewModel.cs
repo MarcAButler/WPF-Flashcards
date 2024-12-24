@@ -91,7 +91,7 @@ namespace WPF_Flashcards.ViewModels
                 Id = 9999,
                 Name = Name,
                 Description = Description,
-                Cards = new List<Card>(Cards)
+                Cards = new ObservableCollection<Card>(Cards)
             }
             );
 

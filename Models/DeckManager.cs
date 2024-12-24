@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace WPF_Flashcards.Models
 {
@@ -17,7 +18,7 @@ namespace WPF_Flashcards.Models
                 Id = 1,
                 Name = "Math Flashcards",
                 Description = "Basic math operations flashcards.",
-                Cards = new List<Card>
+                Cards = new ObservableCollection<Card>
                 {
                     new Card { Id = 1, Front = "2 + 2", Back = "4" },
                     new Card { Id = 2, Front = "3 x 3", Back = "9" },
@@ -29,7 +30,7 @@ namespace WPF_Flashcards.Models
                 Id = 2,
                 Name = "Science Flashcards",
                 Description = "Basic science facts.",
-                Cards = new List<Card>
+                Cards = new ObservableCollection<Card>
                 {
                     new Card { Id = 1, Front = "Water's chemical formula", Back = "H2O" },
                     new Card { Id = 2, Front = "Speed of light (in m/s)", Back = "3x10^8" },
@@ -46,6 +47,17 @@ namespace WPF_Flashcards.Models
         public static void AddDeck(Deck deck)
         {
             _DecksDatabase.Add(deck);
+        }
+
+        internal static void UpdateDeck(Deck? deck)
+        {
+            var existingDeck = GetDecks().FirstOrDefault(d => d.Id == deck.Id);
+            if (existingDeck != null)
+            {
+                existingDeck.Name = deck.Name;
+                existingDeck.Description = deck.Description;
+                existingDeck.Cards = new ObservableCollection<Card>(deck.Cards);
+            }
         }
     }
 }

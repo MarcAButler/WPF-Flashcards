@@ -26,10 +26,10 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <TextBox Grid.Column="0" Text="{Binding Front, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
-                        <TextBox Grid.Column="1" Text="{Binding Back, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
+                        <TextBox Grid.Column="0" Text="{Binding Front, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
+                        <TextBox Grid.Column="1" Text="{Binding Back, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5" />
                         <Button Grid.Column="2" Content="♻️" Command="{Binding DataContext.SomeCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" Background="#76ABAE" Margin="5" />
-                        <Button Grid.Column="3" Content="🗑" Command="{Binding DataContext.SomeCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" Background="#FF204E" Margin="5" />
+                        <Button Grid.Column="3" Content="🗑" Command="{Binding DataContext.DeleteCardCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" Background="#FF204E" Margin="5" />
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -37,7 +37,7 @@
 
         <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Orientation="Horizontal">
             <Button Content="DELETE DECK 🗑️" Background="#FF204E" Margin="0,0,0,10"  Width="200" Height="50" VerticalAlignment="Bottom"/>
-            <Button Content="SAVE DECK 💾" Background="#76ABAE" Margin="10,0,0,10" Width="200" Height="50" VerticalAlignment="Bottom"/>
+            <Button Content="SAVE DECK 💾" Command="{Binding SaveDeckCommand}" Background="#76ABAE" Margin="10,0,0,10" Width="200" Height="50" VerticalAlignment="Bottom"/>
 
         </StackPanel>
     </Grid>
