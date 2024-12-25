@@ -252,7 +252,7 @@ namespace WPF_Flashcards.ViewModels
                 DeckManager.DeleteDeck(SelectedDeck);
                 SelectedDeck = null;
 
-                NavigationService.Navigate(new DeckConfirmationPageView(null));
+                NavigationService.Navigate(new IntroductionPageView());
 
                 CloseChildWindow("deletedeckconfirmationview");
             }

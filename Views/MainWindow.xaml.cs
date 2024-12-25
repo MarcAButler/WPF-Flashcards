@@ -29,8 +29,8 @@ namespace WPF_Flashcards.Views
 
             NavigationService.MainFrame = MainFrame;
 
-            //// Navigate to the page when the application starts
-            //MainFrame.Navigate(new DeckConfirmationPageView());
+            // Navigate to the page when the application starts
+            MainFrame.Navigate(new IntroductionPageView());
         }
     }
 }

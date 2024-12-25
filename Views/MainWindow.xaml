@@ -43,8 +43,7 @@
             <Border
                 Background="#222831"
             />
-            <Image Source="/Assets/WPF-Cards-ICON.png" Width="256" Height="256" Margin="10"/>
-            <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
+            <Frame x:Name="MainFrame"/>
         </Grid>
 
     </Grid>
