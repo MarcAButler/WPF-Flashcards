@@ -23,13 +23,15 @@ namespace WPF_Flashcards.ViewModels
         public ICommand ShowDeleteDeckWindowCommand { get; set; }
 
         public ICommand NavigateToDeckPageCommand { get; set; }
-        //public ICommand UpdateCardCommand { get; set; }
         public ICommand FlipCardCommand { get; set; }
         public ICommand NextCardCommand { get; set; }
 
         public ICommand SaveDeckCommand { get; set; }
 
         public ICommand DeleteCardCommand { get; set; }
+
+        public ICommand DeleteDeckCommand { get; set; }
+        public ICommand CancelDeleteDeckCommand { get; set; }
 
         private Deck? _selectedDeck;
         public Deck? SelectedDeck
@@ -92,6 +94,9 @@ namespace WPF_Flashcards.ViewModels
 
             SaveDeckCommand = new RelayCommand(SaveDeck, CanSaveDeck);
             DeleteCardCommand = new RelayCommand(DeleteCard, CanDeleteCard);
+            DeleteDeckCommand = new RelayCommand(DeleteDeck, CanDeleteDeck);
+
+            CancelDeleteDeckCommand = new RelayCommand(CancelDeleteDeck, CanCancelDeleteDeck);
         }
 
         private bool CanShowWindow(object obj)
@@ -119,13 +124,14 @@ namespace WPF_Flashcards.ViewModels
                         windowToOpen = new DeleteDeckConfirmationView
                         {
                             Owner = mainwindow,
-                            WindowStartupLocation = WindowStartupLocation.CenterOwner
+                            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                            DataContext = this // Set DataContext to MainViewModel
                         };
                         break;
                 }
             }
 
-            windowToOpen?.Show();
+            windowToOpen?.ShowDialog();
         }
 
         private void NavigateToDeckPage(Deck? selectedDeck)
@@ -190,14 +196,6 @@ namespace WPF_Flashcards.ViewModels
             return true;
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-
         private bool CanSaveDeck(object obj)
         {
             return SelectedDeck != null && SelectedDeck.Cards.Any();
@@ -233,6 +231,59 @@ namespace WPF_Flashcards.ViewModels
                 card.IsDeleted = true;
                 OnPropertyChanged(nameof(SelectedDeck));
             }
+        }
+
+        private bool CanDeleteDeck(object obj)
+        {
+            return SelectedDeck != null;
+        }
+
+        private bool CanCancelDeleteDeck(object obj)
+        {
+            return true;
+        }
+
+        private void DeleteDeck(object obj)
+        {
+            if (SelectedDeck != null)
+            {
+                Decks.Remove(SelectedDeck);
+                // Save changes to the database or file if necessary
+                DeckManager.DeleteDeck(SelectedDeck);
+                SelectedDeck = null;
+
+                NavigationService.Navigate(new DeckConfirmationPageView(null));
+
+                CloseChildWindow("deletedeckconfirmationview");
+            }
+        }
+
+        private void CancelDeleteDeck(object obj)
+        {
+            CloseChildWindow("deletedeckconfirmationview");
+        }
+
+
+        private void CloseChildWindow(string childDeckName)
+        {
+            Window addDeckViewWindow = Application.Current.MainWindow;
+
+            foreach (Window win in Application.Current.Windows)
+            {
+                //if (!win.IsFocused && win.Tag.ToString() == "mdi_child")
+                if (win.Name == childDeckName)
+                {
+                    win.Close();
+                }
+
+            }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

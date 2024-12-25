@@ -59,5 +59,11 @@ namespace WPF_Flashcards.Models
                 existingDeck.Cards = new ObservableCollection<Card>(deck.Cards);
             }
         }
+
+        public static void DeleteDeck(Deck deck)
+        {
+            _DecksDatabase.Remove(deck);
+        }
+
     }
 }
