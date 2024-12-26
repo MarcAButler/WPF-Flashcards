@@ -32,6 +32,12 @@ namespace WPF_Flashcards.Views
 
         private void NavigateToAddCardsPage(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(ViewModel.Name))
+            {
+                MessageBox.Show("Please enter a name for the deck.");
+                return;
+            }
+
             // Navigate to AddCardsPageView and pass in deck Name and Description
             var addCardsPage = new AddCardsPageView(ViewModel.Name, ViewModel.Description);
             NavigationService.Navigate(addCardsPage);

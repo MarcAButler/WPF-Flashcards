@@ -78,15 +78,29 @@ namespace WPF_Flashcards.ViewModels
 
         private bool CanAddDeck(object obj)
         {
+            //// If there is no text in the Front or Back textboxes then allow pressing of the "Finish Button"
+            //if (string.IsNullOrWhiteSpace(CardFront) || string.IsNullOrWhiteSpace(CardBack))
+            //{
+            //    return true;
+            //}
+            //else
+            //{
+            //    return false;
+            //}
             return true;
         }
 
         private void AddDeck(object obj)
         {
-            // Add the last card on finish before adding the rest of the cards
-            AddCard(obj);
 
-            DeckManager.AddDeck(new Deck() 
+            if (!string.IsNullOrWhiteSpace(CardFront) && !string.IsNullOrWhiteSpace(CardBack))
+            {
+                // Add the last card on finish before adding the rest of the cards
+                AddCard(obj);
+
+            }
+
+                DeckManager.AddDeck(new Deck() 
             { 
                 Id = 9999,
                 Name = Name,
@@ -101,7 +115,16 @@ namespace WPF_Flashcards.ViewModels
 
         private bool CanAddCard(object obj)
         {
-            return true;
+            
+
+            if (string.IsNullOrWhiteSpace(CardFront) || string.IsNullOrWhiteSpace(CardBack))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         private void AddCard(object obj)
