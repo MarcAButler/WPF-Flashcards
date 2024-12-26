@@ -27,6 +27,15 @@
                 Background="#31363F"    
             />
             <ListView Name="DeckList" ItemsSource="{Binding Decks}" SelectedItem="{Binding SelectedDeck, Mode=TwoWay}" Background="#31363F" Foreground="#EEEEEE" Width="Auto">
+                <ListView.Resources>
+                    <Style TargetType="ListViewItem">
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Foreground" Value="Black"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.Resources>
                 <ListView.View>
                     <GridView>
                         <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Decks"/>
