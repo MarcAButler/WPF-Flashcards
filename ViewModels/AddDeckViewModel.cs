@@ -54,9 +54,6 @@ namespace WPF_Flashcards.ViewModels
             }
         }
 
-
-
-
         public event PropertyChangedEventHandler? PropertyChanged;
   
         public AddDeckViewModel(string deckName = "", string deckDescription = "")
@@ -78,15 +75,6 @@ namespace WPF_Flashcards.ViewModels
 
         private bool CanAddDeck(object obj)
         {
-            //// If there is no text in the Front or Back textboxes then allow pressing of the "Finish Button"
-            //if (string.IsNullOrWhiteSpace(CardFront) || string.IsNullOrWhiteSpace(CardBack))
-            //{
-            //    return true;
-            //}
-            //else
-            //{
-            //    return false;
-            //}
             return true;
         }
 
@@ -97,11 +85,11 @@ namespace WPF_Flashcards.ViewModels
             {
                 // Add the last card on finish before adding the rest of the cards
                 AddCard(obj);
-
             }
 
-                DeckManager.AddDeck(new Deck() 
-            { 
+            DeckManager.AddDeck(new Deck() 
+            {
+                // Hardcoded for now until we implement a real database
                 Id = 9999,
                 Name = Name,
                 Description = Description,
@@ -112,11 +100,8 @@ namespace WPF_Flashcards.ViewModels
             CloseAddDeckWindow();
         }
 
-
         private bool CanAddCard(object obj)
         {
-            
-
             if (string.IsNullOrWhiteSpace(CardFront) || string.IsNullOrWhiteSpace(CardBack))
             {
                 return false;
@@ -147,12 +132,10 @@ namespace WPF_Flashcards.ViewModels
         private void CloseAddDeckWindow()
         {
             string addDeckViewName = "adddeckview";
-            //Window addDeckViewWindow = Application.Current.MainWindow?.FindName(addDeckViewName) as Window;
             Window addDeckViewWindow = Application.Current.MainWindow;
 
             foreach (Window win in Application.Current.Windows)
             {
-                //if (!win.IsFocused && win.Tag.ToString() == "mdi_child")
                 if (win.Name == addDeckViewName)
                 {
                     win.Close();
